@@ -1,0 +1,43 @@
+ <launch>
+  <!-- use something like set_workcell:=0 (to disable setting a workcell using this launch script), or specify a specific workcell using workcell_path:=/path/to/the/workcell on the roslaunch commandline -->
+  <arg name="set_workcell" default="true" />
+  
+   <group if="$(arg set_workcell)">
+    <arg name="workcell_path" default="$(env RW_ROOT)/example/ModelData/XMLScenes/RobotOnTable/Scene.xml" />
+    <param name="/caros/workcell" value="$(arg workcell_path)" />
+    </group> 
+    
+  <!--<group if="$(arg set_workcell)">
+    <arg name="workcell_path" default="/home/rovi2/Jesper/UR5/Mini-Picker/Mini-Picker_v2_DHJoints.wc.xml" />
+    <param name="/caros/workcell" value="$(arg workcell_path)" />
+  </group>
+  -->
+  
+  
+  <group>
+    <include file="$(find caros_universalrobot)/launch/caros_universalrobot_param.xml" ns="ur_simple_demo_node">
+      <!--<arg name="device_name" value="UR5" />-->
+    </include>
+    <!-- The 'name' parameter has to match the 'ns' parameter used in the include tag above -->
+    <node pkg="caros_universalrobot" type="caros_universalrobot_node" name="ur_simple_demo_node" required="true" output="screen">
+      <!-- Nothing -->
+    </node>
+  </group>
+
+  
+    <group>
+        <!-- Including the caros_universalrobot ROS parameters, as they are used for collision detection within the demo -->
+        <include file="$(find caros_universalrobot)/launch/caros_universalrobot_param.xml" ns="simple_caros_universalrobot_demo_using_move_ptp">
+        <!--<arg name="device_name" value="UR5" />-->
+        </include>
+        <!-- The 'name' parameter has to match the 'ns' parameter used in the include tag above -->
+        <node pkg="mp_mini_picker" type="mp_mini_picker_node" name="mp_mini_picker"  >
+        </node>
+    </group>
+  
+  <!--respawn="true"-->
+  
+  
+  
+</launch>
+

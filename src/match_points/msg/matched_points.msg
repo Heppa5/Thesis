@@ -1,0 +1,2 @@
+geometry_msgs/PoseStamped camera
+geometry_msgs/PoseStamped robot
